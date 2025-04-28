@@ -205,8 +205,8 @@ function saveEditedUser(id){
 }
 // Render Html JS
   return (
-    <div 
-    className={`min-xl:absolute min-xl:top-[50%] min-xl:left-[50%] min-xl:translate-[-50%] container max-xl:min-h-[100vh] mx-auto px-4 py-8 max-w-7xl  
+<div 
+    className={`contentBlock container mx-auto px-4 py-8 h-[100%] max-w-full 
     ${themeDark === true ? ' bg-[#202020] text-white' : ''} `}
     >
       {/* Header */}
@@ -285,7 +285,7 @@ function saveEditedUser(id){
             value={selectCity}
             onChange={(e)=>setSelectCity(e.target.value)} 
             className={`w-full px-4 py-2 border rounded appearance-none ${themeDark ? 'bg-[#292929] border-gray-600 text-gray-300' : 'bg-white border-gray-300'}`}>
-              <option value='ALL'>All cities</option>
+              <option>All cities</option>
               <option>Dushanbe</option>
               <option>Kulob</option>
               <option>Bokhtar</option>
