@@ -23,7 +23,7 @@ export default function ToDoList() {
       email: 'jackson.graham@example.com',
       city: 'Dushanbe',
       status: 'INACTIVE',
-      phone: '88888 0090',
+      phone: '90888 0090',
       avatar: 'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=150'
     },
     {
@@ -32,7 +32,7 @@ export default function ToDoList() {
       email: 'jessica.hanson@example.com',
       city: 'Kulob',
       status: 'INACTIVE',
-      phone: '88888 0090',
+      phone: '71288 0090',
       avatar: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=150'
     },
     {
@@ -41,7 +41,7 @@ export default function ToDoList() {
       email: 'bill.sanders@example.com',
       city: 'Dushanbe',
       status: 'INACTIVE',
-      phone: '88888 0090',
+      phone: '43888 0090',
       avatar: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150'
     },
     {
@@ -50,7 +50,7 @@ export default function ToDoList() {
       email: 'michael.mitc@example.com',
       city: 'Bokhtar',
       status: 'ACTIVE',
-      phone: '88888 0090',
+      phone: '32888 0090',
       avatar: 'https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=150'
     },
     {
@@ -59,7 +59,7 @@ export default function ToDoList() {
       email: 'felicia.reid@example.com',
       city: 'Dushanbe',
       status: 'ACTIVE',
-      phone: '88888 0090',
+      phone: '56888 0090',
       avatar: 'https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=150'
     },
     {
@@ -123,6 +123,13 @@ export default function ToDoList() {
   const [searchUsers, setSearchUsers] = useState('');
   const [selectStatus, setSelectStatus] = useState('ALL');
   const [selectCity, setSelectCity] = useState('ALL');
+
+  //Sort
+  const [sortName, setSortName] = useState('');
+  const [sortCity, setSortCity] = useState('');
+  const [sortStatus, setSortStatus] = useState('');
+  const [sortPhone, setSortPhone] = useState('');
+
   function getFilteredUsers(){
   let result = [...user];
 
@@ -143,6 +150,44 @@ export default function ToDoList() {
       user.city.toUpperCase().includes(searchUsers.toUpperCase()
     )
     )
+  }
+  //Sort of Name
+  if(sortName){
+    result.sort((a,b)=>{
+      if(sortName === 'asc'){
+        return a.name.localeCompare(b.name);
+      }else{
+        return b.name.localeCompare(a.name);
+      }
+    })
+  }
+  //Sort of City
+  if(sortCity){
+    result.sort((a,b)=>{
+      if(sortCity === 'asc'){
+        return a.city.localeCompare(b.city);
+      }else{
+        return b.city.localeCompare(a.city);
+      }
+    })
+  }
+  if(sortStatus){
+    result.sort((a,b)=>{
+      if(sortStatus === 'asc'){
+        return a.status.localeCompare(b.status);
+      }else{
+        return b.status.localeCompare(a.status);
+      }
+    })
+  }
+  if (sortPhone) {
+    result = result.sort((a, b) => {
+      if (sortPhone === 'asc') {
+        return a.phone.localeCompare(b.phone);
+      } else {
+        return b.phone.localeCompare(a.phone);
+      }
+    });
   }
   return result
 
@@ -285,7 +330,7 @@ function saveEditedUser(id){
             value={selectCity}
             onChange={(e)=>setSelectCity(e.target.value)} 
             className={`w-full px-4 py-2 border rounded appearance-none ${themeDark ? 'bg-[#292929] border-gray-600 text-gray-300' : 'bg-white border-gray-300'}`}>
-              <option>All cities</option>
+              <option value="ALL">All cities</option>
               <option>Dushanbe</option>
               <option>Kulob</option>
               <option>Bokhtar</option>
@@ -317,22 +362,51 @@ function saveEditedUser(id){
         ${themeDark === true ? 'bg-[#202020] border-[#292929]' : ' border-gray-200'}`}>
         {/* Table Header */}
         <div className={`flex justify-between md:grid grid-cols-12 gap-4 py-3 px-4 text-sm font-medium ${themeDark ? 'bg-[#292929] text-gray-300 border-[#292929]' : 'bg-gray-100 text-gray-600'}`}>
-          <div className="col-span-4 flex items-center gap-2 cursor-pointer ">
+          <div
+          onClick={()=>{
+            setSortName(prev => prev === 'asc' ? 'desc': 'asc');
+            setSortCity('');
+            setSortStatus('');
+            setSortPhone('');
+          }} 
+          className="col-span-4 flex items-center gap-2 cursor-pointer ">
              <User/>
              <span className="max-md:hidden">Name</span>
            <Sort/>
-           </div>
-          <div className="col-span-2 flex items-center gap-2 cursor-pointer ">
+          </div>
+          <div
+          onClick={()=> {
+            setSortCity(prev => prev === 'asc' ? 'desc' :'asc')
+            setSortName('');
+            setSortStatus('');
+            setSortPhone('');
+          }} 
+          className="col-span-2 flex items-center gap-2 cursor-pointer ">
             <Location/>
             <span className="max-md:hidden">City</span>
             <Sort/>
-            </div>
-          <div className="col-span-2 flex items-center gap-2 cursor-pointer">
+          </div>
+          <div
+          onClick={()=> {
+            setSortStatus(prev => prev === 'asc'? 'desc' : 'asc')
+            setSortCity('');
+            setSortName('');
+            setSortPhone('');
+          }} 
+          className="col-span-2 flex items-center gap-2 cursor-pointer">
             <Time/>
             <span className="max-md:hidden">Status</span>
             <Sort/>
           </div>
-          <div className="col-span-3 flex items-center gap-2 cursor-pointer ">
+          <div
+          onClick={()=> {
+            setSortPhone(prev=> prev === 'asc' ? 'desc' : 'asc')
+            setSortCity('');
+            setSortStatus('');
+            setSortName('');
+          }
+          } 
+          className="col-span-3 flex items-center gap-2 cursor-pointer ">
            <Phone/>
             <span className="max-md:hidden">Phone</span>
             <Sort/>
